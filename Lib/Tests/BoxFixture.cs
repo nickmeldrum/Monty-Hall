@@ -8,7 +8,7 @@ namespace Lib.Tests {
     public class BoxFixture {
         [Test]
         public void Box_WhenOpened_CanReturnEitherAGoatOrACar() {
-            // Arrange
+            // Arrange this badboy
             var box = new Box(Prize.Car);
             var contestant = new Contestant(new RandomBoxChooser(new Randomizer()));
 
