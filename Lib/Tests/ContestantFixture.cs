@@ -12,7 +12,7 @@ namespace Lib.Tests {
         public void Contestant_WhenOpeningABox_GetsAPrize() {
             // Arrange
             var contestant = new Contestant(new RandomBoxChooser(new Randomizer()));
-            var boxes = new List<Box>(3) { new Box(Prize.Car), new Box(Prize.Goat), new Box(Prize.Goat) };
+            var boxes = new List<Box>(3) { new Box(new Car()), new Box(new Goat()), new Box(new Goat()) };
 
             // Act
             var prize = contestant.OpenRandomBox(boxes);
@@ -25,7 +25,7 @@ namespace Lib.Tests {
         public void Contestant_WhenChoosingToSwitch_GetsANewBox() {
             // Arrange
             var contestant = new Contestant(new RandomBoxChooser(new Randomizer()));
-            var boxes = new List<Box>(3) { new Box(Prize.Car), new Box(Prize.Goat), new Box(Prize.Goat) };
+            var boxes = new List<Box>(3) { new Box(new Car()), new Box(new Goat()), new Box(new Goat()) };
             var host = new Host();
 
             var firstBox = contestant.OpenRandomBox(boxes);

@@ -13,7 +13,7 @@ namespace Lib.Tests {
         public void Host_WhenOpeningAGoatBoxFromTheBoxes_ThenTheBoxesOnlyHas2BoxesLeftUnopen() {
             // Arrange
             var host = new Host();
-            var boxes = new List<Box>(3) { new Box(Prize.Car), new Box(Prize.Goat), new Box(Prize.Goat) };
+            var boxes = new List<Box>(3) { new Box(new Car()), new Box(new Goat()), new Box(new Goat()) };
 
             // Act
             host.OpensABoxWithAGoatInIt(boxes);
@@ -32,7 +32,7 @@ namespace Lib.Tests {
 
             var host = new Host();
             var contestant = new Contestant(randomBoxChooser);
-            var boxes = new List<Box>(3) { new Box(Prize.Car), new Box(Prize.Goat), new Box(Prize.Goat) };
+            var boxes = new List<Box>(3) { new Box(new Car()), new Box(new Goat()), new Box(new Goat()) };
             var contestantsBox = contestant.OpenRandomBox(boxes);
 
             // Act

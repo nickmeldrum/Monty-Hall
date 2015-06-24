@@ -5,13 +5,16 @@ using NUnit.Framework;
 using Randomizer = Lib.Model.Randomizer;
 
 namespace Lib.Tests {
+    using Lib.Ioc;
+
     [TestFixture]
     [Category("Unit")]
     public class MontyHallGameFixture {
         [Test]
         public void MontyHallGame_WhenPlayed_ThenWeReceiveAPrize() {
             // Arrange
-            var montyHallGame = new MontyHallGame(new Randomizer(), false);
+            var container = new IocContainer();
+            var montyHallGame = container.GetInstance<Player>();
 
             // Act
             var prize = montyHallGame.Play();
@@ -23,19 +26,19 @@ namespace Lib.Tests {
         [Test]
         public void MontyHallGame_WhenContestantPicksFirstBoxAndFirstBoxContainsACar_ThenWeReceiveACarAsAPrize() {
             // Arrange
-            var boxes = new List<Box>(3) {new Box(Prize.Car), new Box(Prize.Goat), new Box(Prize.Goat)};
+            var container = new IocContainer();
+            var boxes = new List<Box>(3) {new Box(new Car()), new Box(new Goat()), new Box(new Goat())};
 
             var randomizerMock = new Mock<Randomizer>();
             randomizerMock.Setup(x => x.GetNextNumber(It.IsAny<int>(), It.IsAny<int>())).Returns(1);
 
-            var montyHallGame = new MontyHallGame(new Host(), boxes,
-                new Contestant(new RandomBoxChooser(randomizerMock.Object)), false);
+            var montyHallGame = container.GetInstance<Player>();
 
             // Act
             var prize = montyHallGame.Play();
 
             // Assert
-            Assert.AreEqual(Prize.Car, prize);
+            Assert.AreEqual(new Car(), prize);
         }
     }
 }

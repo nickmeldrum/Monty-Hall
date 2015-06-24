@@ -2,7 +2,6 @@
 using System.Linq;
 using Lib.Model;
 using NUnit.Framework;
-using Randomizer = Lib.Model.Randomizer;
 
 namespace Lib.Simulations {
     [TestFixture]
@@ -12,10 +11,10 @@ namespace Lib.Simulations {
         [TestCase(100000)]
         public void MonteCarloTest_WhenRunNTimes_ThenWeReportOurResults(int numberOfTimes) {
             // Arrange
-            var monteCarloTest = new MonteCarloTest(new Randomizer());
+            var monteCarloTest = new Simulation();
 
             // Act
-            var prizes = monteCarloTest.RunTests(numberOfTimes);
+            var prizes = monteCarloTest.RunSimulationStickingEveryTime(numberOfTimes);
 
             // Assert
             Console.WriteLine("Run {0} times (no contestantWantsToSwitch): {1} cars won.", numberOfTimes, prizes.Count(p => p == Prize.Car));
@@ -25,10 +24,10 @@ namespace Lib.Simulations {
         [TestCase(100000)]
         public void MonteCarloTest_WhenRunNTimesOnSwitchingContestants_ThenWeReportOurResults(int numberOfTimes) {
             // Arrange
-            var monteCarloTest = new MonteCarloTest(new Randomizer(), true);
+            var monteCarloTest = new Simulation();
 
             // Act
-            var prizes = monteCarloTest.RunTests(numberOfTimes);
+            var prizes = monteCarloTest.RunSimulationSwitchingEveryTime(numberOfTimes);
 
             // Assert
             Console.WriteLine("Run {0} times (contestantWantsToSwitch): {1} cars won.", numberOfTimes, prizes.Count(p => p == Prize.Car));
@@ -38,10 +37,10 @@ namespace Lib.Simulations {
         [TestCase(100000)]
         public void MonteCarloTest_WhenRunNTimes_ThenTheContestantsShouldWinAThirdOfTheTime(int numberOfTimes) {
             // Arrange
-            var monteCarloTest = new MonteCarloTest(new Randomizer());
+            var monteCarloTest = new Simulation();
 
             // Act
-            var prizes = monteCarloTest.RunTests(numberOfTimes);
+            var prizes = monteCarloTest.RunSimulationStickingEveryTime(numberOfTimes);
             var prizeCount = prizes.Count(p => p == Prize.Car);
             var percentWon = (int)(((float)prizeCount / numberOfTimes) * 100);
 
@@ -55,10 +54,10 @@ namespace Lib.Simulations {
         [TestCase(100000)]
         public void MonteCarloTest_WhenRunNTimesAsASwitchingContestant_ThenTheContestantsShouldWinTwoThirdsOfTheTime(int numberOfTimes) {
             // Arrange
-            var monteCarloTest = new MonteCarloTest(new Randomizer(), contestantWantsToSwitch: true);
+            var monteCarloTest = new Simulation();
             
             // Act
-            var prizes = monteCarloTest.RunTests(numberOfTimes);
+            var prizes = monteCarloTest.RunSimulationSwitchingEveryTime(numberOfTimes);
             var prizeCount = prizes.Count(p => p == Prize.Car);
             var percentWon = (int)(((float)prizeCount / numberOfTimes) * 100);
 

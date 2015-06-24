@@ -9,21 +9,21 @@ namespace Lib.Tests {
         [Test]
         public void Box_WhenOpened_CanReturnEitherAGoatOrACar() {
             // Arrange this badboy
-            var box = new Box(Prize.Car);
+            var box = new Box(new Car());
             var contestant = new Contestant(new RandomBoxChooser(new Randomizer()));
 
             // Act
             var prize = box.Open(contestant);
 
             // Assert
-            Assert.IsTrue(prize == Prize.Goat || prize == Prize.Car, "Prize isn't either a goat or a car!");
+            Assert.IsTrue(prize == new Goat() || prize == new Car(), "Prize isn't either a goat or a car!");
         }
 
 
         [Test]
         public void Box_WhenOpenedByContestant_ThenItRemembersItWasOpenedByAContestant() {
             // Arrange
-            var box = new Box(Prize.Goat);
+            var box = new Box(new Goat());
             var contestant = new Contestant(new RandomBoxChooser(new Randomizer()));
 
             // Act
