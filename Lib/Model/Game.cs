@@ -26,39 +26,38 @@
 
         private Prize Play(bool decideToSwitch)
         {
-            var box = SelectRandomBox();
+            SelectRandomBox();
             OpenABoxWithAGoatInIt();
 
             if (decideToSwitch)
-                box = SwitchSelectedBox();
+                SwitchSelectedBox();
 
-            return box.Prize;
+            return this.GetPrize();
+        }
+
+        private void SelectRandomBox()
+        {
+            CheckNoBoxesHaveBeenSelectedOrOpened();
+            boxes[randomizer.GetNextNumber(0, 3)].Select();
         }
 
         private void OpenABoxWithAGoatInIt()
         {
             CheckABoxHasBeenSelectedAndNoBoxesHaveBeenOpened();
-            boxes.First(box => !box.Selected && !box.Opened && box.Prize.Equals(Prize.Goat)).Open();
+            boxes.First(box => box.BoxIsNotSelectedAndNotOpenedAndContainsAGoat()).Open();
         }
 
-        private Box SelectRandomBox()
+        private void SwitchSelectedBox()
         {
-            CheckNoBoxesHaveBeenSelectedOrOpened();
-            var box = boxes[randomizer.GetNextNumber(0, 3)];
-            box.Selected = true;
-            return box;
-        }
-
-        private Box SwitchSelectedBox()
-        {
-            Box selectedBox = null;
             CheckABoxHasBeenSelectedAndABoxHasBeenOpened();
-            foreach (var box in boxes)
-            {
-                box.Selected = !box.Selected;
-                if (box.Selected) selectedBox = box;
-            }
-            return selectedBox;
+            foreach (var box in boxes.Where(b => !b.Opened))
+                box.SwitchSelected();
+        }
+
+        private Prize GetPrize()
+        {
+            CheckABoxHasBeenSelectedAndABoxHasBeenOpened();
+            return boxes.First(b => b.Selected).Prize;
         }
 
         private void CheckABoxHasBeenSelectedAndNoBoxesHaveBeenOpened()
