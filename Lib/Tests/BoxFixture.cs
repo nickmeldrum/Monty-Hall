@@ -1,4 +1,5 @@
-﻿using Lib.Model;
+﻿using System;
+using Lib.Model;
 using NUnit.Framework;
 using Randomizer = Lib.Model.Randomizer;
 
@@ -32,6 +33,19 @@ namespace Lib.Tests {
             // Assert
             Assert.IsTrue(box.Opened);
             Assert.AreEqual(box.OpenedBy, typeof(Contestant));
+        }
+
+        [Test]
+        [ExpectedException( typeof( InvalidOperationException ) )]
+        public void Box_OnceOpened_CannotBeOpenedAgain()
+        {
+            // Arrange
+            var box = new Box(Prize.Goat);
+            var contestant = new Contestant(new RandomBoxChooser(new Randomizer()));
+
+            // Act
+            box.Open(contestant);
+            box.Open(contestant);
         }
 
     }

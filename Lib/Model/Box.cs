@@ -9,6 +9,7 @@ namespace Lib.Model
         public Type OpenedBy { get; private set; }
 
         public Prize Open(object opener) {
+            if(Opened) throw new Exception("Box was already opened by " + OpenedBy);
             OpenedBy = opener.GetType();
             Opened = true;
             return _prize;
